@@ -6,10 +6,10 @@ class LexicalQuery extends Component {
 
 	handleClick = () => {
         const words = document.getElementById("lexical-text").value;
-        let url = new URL('http://localhost:5000/lexical_query')
-        url.searchParams.append('words', encodeURI(words))
+        let url = '/lexical_query?words=' + encodeURI(words);
+        // url.searchParams.append('words', encodeURI(words))
         var options = {}
-        fetch(url.pathname, { credentials: 'same-origin' })
+        fetch(url, { credentials: 'same-origin' })
         .then((response) => {
             if (!response.ok) {
                 console.log(response);
