@@ -20,9 +20,10 @@ def get_lexical_query():
 def get_proximal_query():
 	city_id = flask.request.args['id']
 	num_cities = int(flask.request.args['n'])
-	# country_limit = flask.request.args['limit']
+	country_limit = (flask.request.args['limit'] == 'true')
+	print(country_limit)
 
-	close_cities = city_handler.proximal_query(city_id, num_cities, country_limit=False)
+	close_cities = city_handler.proximal_query(city_id, num_cities, country_limit=country_limit)
 
 	resp = flask.make_response(flask.jsonify({'cities': [city.to_json() for city in close_cities]}))
 	resp.headers['Access-Control-Allow-Origin'] = '*'

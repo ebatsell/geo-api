@@ -4,6 +4,7 @@ import './App.css';
 import ProximalQuery from './components/ProximalQuery.jsx';
 import LexicalQuery from './components/LexicalQuery.jsx';
 import Cities from './components/Cities.jsx';
+import Typography from '@material-ui/core/Typography';
 
 class App extends Component {
     constructor() {
@@ -20,9 +21,9 @@ class App extends Component {
     }
 
     render() {
-
         return (
             <div className="App">
+                <Typography variant="h3" gutterBottom> Geography API by Evan </Typography>
                 <ProximalQuery updateCities={this.updateCities} />
                 <LexicalQuery updateCities={this.updateCities} />
                 <Cities cities={this.state.cities} />

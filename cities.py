@@ -42,19 +42,19 @@ class City(object):
 
 		return EARTH_RADIUS * c
 
-	def find_k_closest(self, k):
-		for city in cities.values():
+	def find_k_closest(self, k, city_list):
+		for city in city_list:
 			city.set_distance(self.distance_to(city))
 
 		# heap is faster than sorting entire list for small values of k
 		return heapq.nsmallest(
 			k, 
-			cities.values(), 
+			city_list,
 			key=lambda city: city.distance
 		)
 
-	def find_k_closest_in_country(self, k):
-		country_cities = list(filter(lambda city: self.country_code == city.country_code, cities.values()))
+	def find_k_closest_in_country(self, k, city_list):
+		country_cities = list(filter(lambda city: self.country_code == city.country_code, city_list))
 		for city in country_cities:
 			city.set_distance(self.distance_to(city))
 
@@ -111,8 +111,8 @@ class CityHandler(object):
 	# Lower Population limit (filter by min-population to avoid BS cities)
 	def proximal_query(self, city_id, num_cities, country_limit=False):
 		if country_limit:
-			return self.cities[city_id].find_k_closest_in_country(num_cities)
-		return self.cities[city_id].find_k_closest(num_cities)
+			return self.cities[city_id].find_k_closest_in_country(num_cities, self.cities.values())
+		return self.cities[city_id].find_k_closest(num_cities, self.cities.values())
 
 	# Sort by certain things: 
 	# population
@@ -125,9 +125,13 @@ class CityHandler(object):
 			matches = True
 			for word in words:
 				# Change the way this is implemented to get the alternate names
-				if word not in city.primary_name:
-					matches = False
-				# for name in city.alternate_names:
+				word_matches = False
+				if word in city.primary_name:
+					word_matches = True
+				for name in city.alt_names:
+					if word in name: 
+						word_matches = True
+				matches = matches and word_matches		
 
 			if matches:
 				matching_cities.append(city)

@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 class ProximalQuery extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            check: false
+        }
+        // this.handleChange = this.handleChange.bind(this)
+    }
+
+
+    handleChange = (event) => {
+        this.setState({ check: event.target.checked });
+    };
 
     handleClick = () => {
         const cityId = document.getElementById("proximal-id").value;
         const n = parseInt(document.getElementById("proximal-number").value);
-        // let url = new URL('http://localhost:5000/proximal_query')
-        // url.searchParams.append('id', cityId);
-        // url.searchParams.append('n', n);
-        let url = '/proximal_query?id=' + cityId + '&n=' + n
+        const countryLimit = this.state.check;
+        let url = '/proximal_query?id=' + cityId + '&n=' + n + '&limit=' + countryLimit;
         fetch(url, { credentials: 'same-origin' }) // likely don't need same-origin credentials
         .then((response) => {
             if (!response.ok) {
@@ -27,25 +41,43 @@ class ProximalQuery extends Component {
     render() {
         return (
             <div>
-                Proximal Query:
-                <TextField
-                    id="proximal-id"
-                    label="City ID"
-                    type="search"
-                    margin="normal"
-                />
-                <TextField
-                    id="proximal-number"
-                    label="Number"
-                    type="number"
-                    InputLabelProps={{
-                    shrink: true,
-                    }}
-                    margin="normal"
-                />
-                <Button variant="contained" color="primary" onClick={this.handleClick} > 
-                    Search 
-                </Button>
+                <Grid 
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="baseline"
+                >
+                    <TextField
+                        id="proximal-id"
+                        label="Proximal Query"
+                        defaultValue="City ID"
+                        type="standard-helpertext"
+                        margin="normal"
+                    />
+                    <TextField
+                        id="proximal-number"
+                        label="Number of Cities"
+                        type="number"
+                        InputLabelProps={{
+                        shrink: true,
+                        }}
+                        margin="normal"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Switch 
+                                color="primary"
+                                checked={this.state.check}
+                                onChange={this.handleChange}
+                                value="checkSwitch"
+                            />
+                        }
+                        label="Limit by Country"
+                    />
+                    <Button variant="contained" color="primary" onClick={this.handleClick} > 
+                        Search 
+                    </Button>
+                </Grid>
             </div>
         )
     }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 class LexicalQuery extends Component {
 
@@ -26,16 +27,23 @@ class LexicalQuery extends Component {
     render() {
         return (
             <div>
-                Lexical Query:
-                <TextField
-                    id="lexical-text"
-                    label="Search field"
-                    type="search"
-                    margin="normal"
-                /> 
-                <Button variant="contained" color="primary" onClick={this.handleClick} > 
-                    Search 
-                </Button>
+                <Grid 
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="baseline"
+                >
+                    <TextField
+                            id="lexical-text"
+                            label="Lexical Query"
+                            defaultValue="City Name"
+                            type="standard-helpertext"
+                            margin="normal"
+                        />
+                    <Button variant="contained" color="primary" onClick={this.handleClick} > 
+                        Search 
+                    </Button>
+                </Grid>
             </div>
         )
     }
