@@ -7,11 +7,10 @@ class ProximalQuery extends Component {
     handleClick = () => {
         const cityId = document.getElementById("proximal-id").value;
         const n = parseInt(document.getElementById("proximal-number").value);
-
         let url = new URL('http://localhost:5000/proximal_query')
         url.searchParams.append('id', cityId);
         url.searchParams.append('n', n);
-        fetch(url.href, { credentials: 'same-origin' }) // likely don't need same-origin credentials
+        fetch(url.pathname, { credentials: 'same-origin' }) // likely don't need same-origin credentials
         .then((response) => {
             if (!response.ok) {
                 throw Error(response.statusText);

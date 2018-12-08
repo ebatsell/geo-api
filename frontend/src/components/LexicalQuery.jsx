@@ -9,7 +9,7 @@ class LexicalQuery extends Component {
         let url = new URL('http://localhost:5000/lexical_query')
         url.searchParams.append('words', encodeURI(words))
         var options = {}
-        fetch(url.href, { credentials: 'same-origin' })
+        fetch(url.pathname, { credentials: 'same-origin' })
         .then((response) => {
             if (!response.ok) {
                 console.log(response);
